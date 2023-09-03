@@ -1,1 +1,20 @@
 # variable: True
+PIHOLE_HTTP_PORT: 8083
+PIHOLE_PATH: '/mnt/pihole'
+PIHOLE_STORAGE_ZFS_POOL: 'apps_pool'
+PIHOLE_STORAGE_ZFS_FS: 'pihole'
+PIHOLE_SERVICE_ACCOUNT: 'srv_pihole'
+PIHOLE_CONTAINER_VERSION: 'latest'
+PIHOLE_FQDN: 'pihole.domain.com'
+PIHOLE_TIMEZONE: "America/New_York"
+
+# dns entries
+# dns:
+#    zones:  # variable
+#      zonename:
+#        - subnet: 192.168.1.0/24
+#        - domain: domain.com
+#        - entries:
+#            - {ip: 192.168.1.1, fqdn: something.domain.com}
+#      aliases:
+#         - {src: appserver.fqdn, dest: hostname.fqdn}

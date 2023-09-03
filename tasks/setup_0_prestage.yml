@@ -1,0 +1,12 @@
+---
+  - name: Stop the app, if running
+    ansible.builtin.import_tasks:
+      file: tag_stop.yml
+
+  - name: Stop/Disable systemd-resolved
+    ansible.builtin.systemd_service:
+      name: systemd-resolved
+      enabled: false
+      masked: true
+      state: "stopped"
+

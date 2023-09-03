@@ -1,0 +1,30 @@
+---
+  - name: Create pihole ZFS volume
+    community.general.zfs:
+      name: "{{ PIHOLE_STORAGE_ZFS_POOL }}/{{PIHOLE_STORAGE_ZFS_FS}}"
+      state: present
+      extra_zfs_properties:
+        mountpoint: "{{ PIHOLE_PATH }}"
+
+  - name: Create folders
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: directory
+    loop:
+      - "{{ PIHOLE_PATH }}"
+      - "{{ PIHOLE_PATH }}/volumes"
+      - "{{ PIHOLE_PATH }}/volumes/etc-pihole"
+      - "{{ PIHOLE_PATH }}/volumes/etc-dnsmasq.d"
+      - "{{ PIHOLE_PATH }}/backups"
+      - "{{ PIHOLE_PATH }}/backups/database"
+      - "{{ PIHOLE_PATH }}/backups/tarballs"
+      - "{{ PIHOLE_PATH }}/backups/logs"
+      - "{{ PIHOLE_PATH }}/scripts"
+      - "{{ PIHOLE_PATH }}/docs"
+
+  - name: Copy docker compose file
+    ansible.builtin.template:
+      src: "{{ role_path }}/templates/pihole_docker-compose.yml.j2"
+      dest: "{{ PIHOLE_PATH }}/docs/docker-compose.yml"
+
+

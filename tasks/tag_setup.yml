@@ -1,0 +1,25 @@
+---
+  - name: Prestage
+    ansible.builtin.import_tasks:
+      file: setup_0_prestage.yml
+  
+  - name: Partitioning - ZFS
+    ansible.builtin.import_tasks:
+      file: setup_1_partition_zfs.yml
+
+  - name: Backend - Docker
+    ansible.builtin.import_tasks:
+      file: setup_2_docker.yml
+
+  - name: Configure Pihole
+    ansible.builtin.import_tasks:
+      file: setup_3_configure_pihole.yml
+  
+  - name: Configure nginx
+    ansible.builtin.import_tasks:
+      file: setup_4_configure_nginx.yml
+  
+  - name: Start pihole
+    ansible.builtin.import_tasks:
+      file: tag_start.yml
+

@@ -1,0 +1,33 @@
+server {
+    listen       80;
+    listen       [::]:80;
+    server_name pihole {{ PIHOLE_FQDN }};
+  
+    access_log /var/log/nginx/pihole.80.{{ PIHOLE_FQDN }}.access.log;
+    error_log /var/log/nginx/pihole.80.{{ PIHOLE_FQDN }}.error.log;
+  
+  
+    return 301 https://{{ PIHOLE_FQDN }}$request_uri;
+  
+  }
+  
+  server {
+    listen       443;
+    listen       [::]:443;
+    server_name {{ PIHOLE_FQDN }};
+    ssl on;
+    ssl_certificate {{ PIHOLE_SSL_CERT_PATH }};
+    ssl_certificate_key {{ PIHOLE_SSL_KEY_PATH }};
+  
+    access_log /var/log/nginx/pihole.443.{{ PIHOLE_FQDN }}.access.log;
+    error_log /var/log/nginx/pihole.443.{{ PIHOLE_FQDN }}.error.log;
+  
+    location / {
+      proxy_pass "https://localhost:{{ PIHOLE_HTTP_PORT }}";
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+    }
+  
+  }
